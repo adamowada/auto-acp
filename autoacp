@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 import openai
 
 
-load_dotenv(".env")
+load_dotenv("/home/adam/projects/auto-acp/.env")
 
 
 # Define constants
