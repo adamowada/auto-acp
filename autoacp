@@ -11,19 +11,20 @@ load_dotenv("/home/adam/projects/auto-acp/.env")
 
 
 # Define constants
-STARTER = "Imagine you are a senior software developer. The following is the output from the command `git diff`. Respond with a 1 line git commit message for these changes verbatim:\n\n"
+PROMPT = "Imagine you are a senior software developer. The following is the output from the command `git diff`. Respond with a 1 line git commit message for these changes verbatim:\n\n"
 OPENAI_API_KEY = os.getenv("API_KEY")
 OPENAI_MODEL = "gpt-3.5-turbo"
 GIT_COMMANDS = {
-    "INTENT_TO_ADD": ["git", "add", "-N", "."],
-    "DIFF": ["git", "diff"],
     "ADD": ["git", "add", "."],
     "COMMIT": ["git", "commit", "-m"],
+    "DIFF": ["git", "diff"],
+    "INTENT_TO_ADD": ["git", "add", "-N", "."],
     "PUSH": ["git", "push"],
 }
 
 
 def replace_chars(text):
+    """Replace special characters with escape sequences."""
     # Replace line breaks with \n
     text = re.sub(r"\r?\n", r"\\n", text)
     # Replace backslashes with \\
@@ -33,38 +34,86 @@ def replace_chars(text):
     return text
 
 
-if __name__ == "__main__":
+def run_git_command(command):
+    """Run a git command and return the output."""
     try:
-        # Run git commands
-        subprocess.run(GIT_COMMANDS["INTENT_TO_ADD"], capture_output=True, check=True)
-        diff = subprocess.run(GIT_COMMANDS["DIFF"], capture_output=True, check=True)
-        diff = str(diff.stdout, "UTF-8")
-        diff = replace_chars(diff)
-
-        if not diff or len(diff) < 10:
-            exit()
-
-        # Call OpenAI API
-        openai.api_key = OPENAI_API_KEY
-        completion = openai.ChatCompletion.create(
-            model=OPENAI_MODEL, messages=[{"role": "user", "content": STARTER + diff}]
-        )
-
-        # ACP result
-        message = completion.choices[0].message["content"].strip()
-        GIT_COMMANDS["COMMIT"].append(message)
-        subprocess.run(GIT_COMMANDS["ADD"], capture_output=True, check=True)
-        subprocess.run(GIT_COMMANDS["COMMIT"], capture_output=True, check=True)
-        subprocess.run(GIT_COMMANDS["PUSH"], capture_output=True, check=True)
-        print(message)
+        result = subprocess.run(command, capture_output=True, check=True)
+        return str(result.stdout, "utf-8").strip()
     except subprocess.CalledProcessError as err:
         raise Exception(f"Error running git command: {err}")
-    except openai.error.APIError as err:
-        # Handle API error here, e.g. retry or log
-        raise Exception(f"OpenAI API returned an API Error: {err}")
-    except openai.error.APIConnectionError as err:
-        # Handle connection error here
-        raise Exception(f"Failed to connect to OpenAI API: {err}")
-    except openai.error.RateLimitError as err:
-        # Handle rate limit error (we recommend using exponential backoff)
-        raise Exception(f"OpenAI API request exceeded rate limit: {err}")
+
+
+def main():
+    """
+    Run the main logic of the script.
+
+    This function runs the `git diff` command, calls the OpenAI API to generate a commit message,
+    and executes the necessary `git` commands to add, commit and push the changes.
+
+    If the `git diff` command returns an empty or very short string, no commit is made.
+    """
+    # Run git commands
+    run_git_command(GIT_COMMANDS["INTENT_TO_ADD"])
+    diff = run_git_command(GIT_COMMANDS["DIFF"])
+    diff = replace_chars(diff)
+
+    if not diff or len(diff) < 10:
+        return
+
+    # Call OpenAI API
+    openai.api_key = OPENAI_API_KEY
+    response = openai.ChatCompletion.create(
+        model=OPENAI_MODEL,
+        messages=[
+            {
+                "role": "user",
+                "content": PROMPT + diff,
+            }
+        ],
+    )
+    commit_message = response.choices[0].message["content"].strip()
+
+    # ACP
+    run_git_command(GIT_COMMANDS["ADD"])
+    run_git_command(GIT_COMMANDS["COMMIT"] + [commit_message])
+    run_git_command(GIT_COMMANDS["PUSH"])
+
+    print(commit_message)
+
+
+if __name__ == "__main__":
+    main()
+    # try:
+    #     # Run git commands
+    #     subprocess.run(GIT_COMMANDS["INTENT_TO_ADD"], capture_output=True, check=True)
+    #     diff = subprocess.run(GIT_COMMANDS["DIFF"], capture_output=True, check=True)
+    #     diff = str(diff.stdout, "UTF-8")
+    #     diff = replace_chars(diff)
+
+    #     if not diff or len(diff) < 10:
+    #         exit()
+
+    #     # Call OpenAI API
+    #     openai.api_key = OPENAI_API_KEY
+    #     completion = openai.ChatCompletion.create(
+    #         model=OPENAI_MODEL, messages=[{"role": "user", "content": STARTER + diff}]
+    #     )
+
+    #     # ACP result
+    #     message = completion.choices[0].message["content"].strip()
+    #     GIT_COMMANDS["COMMIT"].append(message)
+    #     subprocess.run(GIT_COMMANDS["ADD"], capture_output=True, check=True)
+    #     subprocess.run(GIT_COMMANDS["COMMIT"], capture_output=True, check=True)
+    #     subprocess.run(GIT_COMMANDS["PUSH"], capture_output=True, check=True)
+    #     print(message)
+    # except subprocess.CalledProcessError as err:
+    #     raise Exception(f"Error running git command: {err}")
+    # except openai.error.APIError as err:
+    #     # Handle API error here, e.g. retry or log
+    #     raise Exception(f"OpenAI API returned an API Error: {err}")
+    # except openai.error.APIConnectionError as err:
+    #     # Handle connection error here
+    #     raise Exception(f"Failed to connect to OpenAI API: {err}")
+    # except openai.error.RateLimitError as err:
+    #     # Handle rate limit error (we recommend using exponential backoff)
+    #     raise Exception(f"OpenAI API request exceeded rate limit: {err}")
