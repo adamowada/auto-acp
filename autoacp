@@ -24,7 +24,7 @@ GIT_COMMANDS = {
 
 
 def replace_chars(text):
-    """Replace special characters with escape sequences."""
+    """Replace special characters with escape sequences for valid JSON."""
     # Replace line breaks with \n
     text = re.sub(r"\r?\n", r"\\n", text)
     # Replace backslashes with \\
@@ -62,15 +62,25 @@ def main():
 
     # Call OpenAI API
     openai.api_key = OPENAI_API_KEY
-    response = openai.ChatCompletion.create(
-        model=OPENAI_MODEL,
-        messages=[
-            {
-                "role": "user",
-                "content": PROMPT + diff,
-            }
-        ],
-    )
+    try:
+        response = openai.ChatCompletion.create(
+            model=OPENAI_MODEL,
+            messages=[
+                {
+                    "role": "user",
+                    "content": PROMPT + diff,
+                }
+            ],
+        )
+    except openai.error.APIError as err:
+        # Handle API error here, e.g. retry or log
+        raise Exception(f"OpenAI API returned an API Error: {err}")
+    except openai.error.APIConnectionError as err:
+        # Handle connection error here
+        raise Exception(f"Failed to connect to OpenAI API: {err}")
+    except openai.error.RateLimitError as err:
+        # Handle rate limit error (OpenAI recommends using exponential backoff)
+        raise Exception(f"OpenAI API request exceeded rate limit: {err}")
     commit_message = response.choices[0].message["content"].strip()
 
     # ACP
@@ -83,37 +93,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    # try:
-    #     # Run git commands
-    #     subprocess.run(GIT_COMMANDS["INTENT_TO_ADD"], capture_output=True, check=True)
-    #     diff = subprocess.run(GIT_COMMANDS["DIFF"], capture_output=True, check=True)
-    #     diff = str(diff.stdout, "UTF-8")
-    #     diff = replace_chars(diff)
-
-    #     if not diff or len(diff) < 10:
-    #         exit()
-
-    #     # Call OpenAI API
-    #     openai.api_key = OPENAI_API_KEY
-    #     completion = openai.ChatCompletion.create(
-    #         model=OPENAI_MODEL, messages=[{"role": "user", "content": STARTER + diff}]
-    #     )
-
-    #     # ACP result
-    #     message = completion.choices[0].message["content"].strip()
-    #     GIT_COMMANDS["COMMIT"].append(message)
-    #     subprocess.run(GIT_COMMANDS["ADD"], capture_output=True, check=True)
-    #     subprocess.run(GIT_COMMANDS["COMMIT"], capture_output=True, check=True)
-    #     subprocess.run(GIT_COMMANDS["PUSH"], capture_output=True, check=True)
-    #     print(message)
-    # except subprocess.CalledProcessError as err:
-    #     raise Exception(f"Error running git command: {err}")
-    # except openai.error.APIError as err:
-    #     # Handle API error here, e.g. retry or log
-    #     raise Exception(f"OpenAI API returned an API Error: {err}")
-    # except openai.error.APIConnectionError as err:
-    #     # Handle connection error here
-    #     raise Exception(f"Failed to connect to OpenAI API: {err}")
-    # except openai.error.RateLimitError as err:
-    #     # Handle rate limit error (we recommend using exponential backoff)
-    #     raise Exception(f"OpenAI API request exceeded rate limit: {err}")
