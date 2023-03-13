@@ -51,12 +51,14 @@
 10. Test by running `$ autoacp` in a git repository with uncommitted changes
 
 > **Optional Step:** Add a watch alias to your .bashrc:
-  - Add this to the bottom of your `.bashrc` file:
-    `aacp() {
-        wait="$*"
-        watch -n $wait autoacp
-    }`
-  - Then when you are working you can run `$ aacp 60` which will use watch to autoacp every 60 seconds (or however many seconds you pass as an argument)
+- Add this to the bottom of your `.bashrc` file:
+```bash
+aacp() {
+    wait="$*"
+    watch -n $wait autoacp
+}
+```
+- Then when you are working you can run `$ aacp 60` which will use watch to autoacp every 60 seconds (or however many seconds you pass as an argument)
  
 ## Known Issues:
   - Large diffs that cause the request to exceed 4096 tokens, which is approximately 16,000 characters, will fail
