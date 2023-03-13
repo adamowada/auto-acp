@@ -12,13 +12,14 @@
 - Auto-ACP is a command-line interface application written in python that allows for quick and easy git add, commit, and pushes
 - Auto-ACP uses OpenAI's ChatGPT API to automatically generate a 1 line commit message
 - Once installed, simply run the command `autoacp` in your terminal. Auto-ACP will then:
-1. `git add -N .`
-2. `git diff`
-3. Generate a commit message based on the output of git diff
-4. `git add .`
-5. `git commit -m "<generated_commit_message>"`
-6. `git push`
-7. Finally, Auto-ACP will print the generated commit message to the terminal
+
+    1. `git add -N .`
+    2. `git diff`
+    3. Generate a commit message based on the output of git diff
+    4. `git add .`
+    5. `git commit -m "<generated_commit_message>"`
+    6. `git push`
+    7. Finally, Auto-ACP will print the generated commit message to the terminal
 
 ## Prerequisites:
 - git
