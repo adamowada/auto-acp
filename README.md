@@ -12,12 +12,12 @@
 - Error handling
 - Once installed, simply run the command `autoacp` in your terminal. Auto-ACP will then:
   1. git add -N . 
-  2. git diff
-  3. Generate a commit message based on the output of git diff
-  4. git add .
-  5. git commit -m "<generated_commit_message>"
-  6. git push
-  7. Finally, Auto-ACP will print the generated commit message to the terminal
+  1. git diff
+  1. Generate a commit message based on the output of git diff
+  1. git add .
+  1. git commit -m "<generated_commit_message>"
+  1. git push
+  1. Finally, Auto-ACP will print the generated commit message to the terminal
 
 ## Prerequisites:
 - git
@@ -25,10 +25,12 @@
 - Valid API key from [OpenAI](https://platform.openai.com/signup)
 
 ## Bash Installation Instructions: (pictures and more detail coming soon)
-  1. Clone this repository 
+  1. Clone this repository
+
     - `$ git clone git@github.com:adamowada/auto-acp.git`
     - Optionally you may fork the repository or use this repository as a template
   2. Create a virtual environment in the root of your directory
+ 
     - `$ cd auto-acp`
     - `$ python3.11 -m venv .venv`
     - Optionally use an older version of python (it works with 3.10.6. No guarantees)
