@@ -1,4 +1,4 @@
-#!/home/adam/projects/auto-acp/.venv/bin/python
+#!/home/adamo/projects/auto-acp/.venv/bin/python
 import os
 import re
 import subprocess
@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 import openai
 
 
-load_dotenv("/home/adam/projects/auto-acp/.env")
+load_dotenv("/home/adamo/projects/auto-acp/.env")
 
 
 # Define constants
