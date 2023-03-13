@@ -62,7 +62,7 @@ aacp() {
  
 ## Known Issues:
   - Large diffs that cause the request to exceed 4096 tokens, which is approximately 16,000 characters, will fail
-  - This could happen whenever many boilerplate files are created
+        - This could happen whenever many boilerplate files are created
   - Does a good job describing 'what' changes were made, but not the 'why' or 'how'
   - OpenAI's API is **paid**. Therefore while this app is free, using it will cost you **money**. Use at your own risk
  
