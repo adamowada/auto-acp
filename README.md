@@ -30,7 +30,7 @@
 ## Bash Installation Instructions: (pictures and more detail coming soon)
 1. Clone this repository
     - `$ git clone git@github.com:adamowada/auto-acp.git`
-    - Optionally you may download as a zip, fork the repository, or use this repository as a template
+    - Optionally you may download as a zip or fork the repository
 2. Create a virtual environment in the root of your directory
     - `$ cd auto-acp`
     - `$ python3.11 -m venv .venv`
