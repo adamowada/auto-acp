@@ -4,7 +4,7 @@
 ### ❓ Tired of bland, unhelpful commit messages?
 ### ❓ Do you frequently forget to ACP and regret it later?
 ### ❓ Wish your commit graph had more commits??
-### 🥳 Never fear! Auto-ACP is here! 🥳
+### 🥳 **Never fear! Auto-ACP is here!** 🥳
 
 ## Features:
 - Auto-ACP is a command line interface application that allows for quick and easy git add, commit, and pushes
