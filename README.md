@@ -26,29 +26,30 @@
 
 ## Bash Installation Instructions: (pictures and more detail coming soon)
 1. Clone this repository
-  - `$ git clone git@github.com:adamowada/auto-acp.git`
-  - Optionally you may fork the repository or use this repository as a template
+    - `$ git clone git@github.com:adamowada/auto-acp.git`
+    - Optionally you may fork the repository or use this repository as a template
 2. Create a virtual environment in the root of your directory
-  - `$ cd auto-acp`
-  - `$ python3.11 -m venv .venv`
-  - Optionally use an older version of python (it works with 3.10.6. No guarantees)
+    - `$ cd auto-acp`
+    - `$ python3.11 -m venv .venv`
+    - Optionally use an older version of python (it works with 3.10.6. No guarantees)
 3. Activate virtual environment
-  - `$ source .venv/bin/activate`
+    - `$ source .venv/bin/activate`
 4. Pip install requirements
-  - `$ pip install -r requirements.txt`
+    - `$ pip install -r requirements.txt`
 5. Create an `.env` file in the root of your directory (same location as .env.sample)
-  - `$ touch .env`
+    - `$ touch .env`
 6. Edit .env following the example of `.env.sample` and of course add your own personal API key
 7. Edit `autoacp` in a file editor of your choosing:
-  1. Change line 1 the be the absolute path of your virtual environment's python
-  2. Change line 10 to be the absolute path of your `.env` file
+    1. Change line 1 the be the absolute path of your virtual environment's python
+    2. Change line 10 to be the absolute path of your `.env` file
 8. Make the `autoacp` file an executable
-  - `$ chmod +x autoacp`
+    - `$ chmod +x autoacp`
 9. Add the root directory to your $PATH variable. The easiest way to do this is to add a line to the bottom of your .bashrc file
-  - `export PATH=$PATH:/home/adam/projects/auto-acp`
-  - Restart your terminal 
+    - `export PATH=$PATH:/home/adam/projects/auto-acp`
+    - Restart your terminal 
 10. Test by running `$ autoacp` in a git repository with uncommitted changes
-> Optional Step: Add a watch alias to your .bashrc:
+<br>
+> **Optional Step:** Add a watch alias to your .bashrc:
   - Add this to the bottom of your `.bashrc` file:
     ```bash
     aacp() {
