@@ -1,10 +1,10 @@
 # Auto-ACP 
-### by Adam Owada
+#### by Adam Owada
 
-## ❓ Tired of bland, unhelpful commit messages?
-## ❓ Do you frequently forget to ACP and regret it later?
-## ❓ Wish your commit graph had more commits??
-## 🥳 Never fear! Auto-ACP is here!
+### ❓ Tired of bland, unhelpful commit messages?
+### ❓ Do you frequently forget to ACP and regret it later?
+### ❓ Wish your commit graph had more commits??
+### 🥳 Never fear! Auto-ACP is here!
 
 ## Features:
 - Auto-ACP is a command line interface application that allows for quick and easy git add, commit, and pushes
@@ -48,7 +48,7 @@
     - `export PATH=$PATH:/home/adam/projects/auto-acp`
     - Restart your terminal 
   10. Test by running `$ autoacp` in a git repository with uncommitted changes
-  11. Optional Step: Add watch alias to your .bashrc:
+  11. Optional Step: Add a watch alias to your .bashrc:
     - Add this to the bottom of your `.bashrc` file:
       ```bash
       aacp() {
