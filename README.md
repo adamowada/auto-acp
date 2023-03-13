@@ -47,7 +47,7 @@
 8. Make the `autoacp` file an executable
     - `$ chmod +x autoacp`
 9. Add the root directory to your $PATH variable. The easiest way to do this is to add a line to the bottom of your .bashrc file
-    - `export PATH=$PATH:/home/adam/projects/auto-acp`
+    - Example: `export PATH=$PATH:/home/adam/projects/auto-acp`
     - Restart your terminal 
 10. Test by running `$ autoacp` in a git repository with uncommitted changes. If you see a commit message (and don't see errors) it works!
 11. 🎉 You did it! 🎉
