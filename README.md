@@ -48,7 +48,7 @@
     - `export PATH=$PATH:/home/adam/projects/auto-acp`
     - Restart your terminal 
 10. Test by running `$ autoacp` in a git repository with uncommitted changes
-<br>
+
 > **Optional Step:** Add a watch alias to your .bashrc:
   - Add this to the bottom of your `.bashrc` file:
     ```bash
