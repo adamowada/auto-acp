@@ -6,7 +6,7 @@
 ### ❓ Wish your commit graph had more commits??
 ### 🥳 Never fear! Auto-ACP is here! 🥳
 
-<div>
+<div style="margin:auto; width:70%">
     <img style="margin:1rem" src="https://lh3.googleusercontent.com/QYMYEMzAS8A8uIt-0DIfslBG6T6cT-W9mYlJXyUJ5hUd0m8kI8BCZzz89hbOO82i1uxfNyBCTJMb2XHrqXlkTC8A2yhM5LDVdhT0pBGwwR7EpNSS7ul956HWK_7TbsT__8aVmkfNcnZU6EmwarSXF1Orn6bv5eO_gPTgAmrJWjYGKNMNg8GWGJFCkwMhybzDPSXKL85jKx3M6Z53pLNvOHWXvF8X2CdnMiiqkQyyQlkjZ6T9CFguOEsQh7qHsk-htjgtw4ZsArbNP9EmIAYmoxnMmE10X2QmohbMd2XLIX53M1mpzlcng7VO104marSRl5Y1c5_rZDdsljvhJ3fmaJywsEzowBy_x6MgIK-O32p3xDYX933CRfj965fDOLURBC_OJSQ5IatgkwXXKK69JUu-NUZcvV_A7ENuyw4MmyfXv62YNEx3x-kKaSfZ-QP4PuNiakkFyJZjTTFrwmzTv2WAN1Dm17b248Dzr57Te4TvNQJcOper43WPn5emEZ-RL4Fk60jLNYlH4V3cl53wq0-08Y0kKX-kogvj1anESKshOTFs3qICKVBpPMviOWIzv6ktU1bLxKOqmfjWXNPV4Ki6C2v7FgqW7rLViq8FcZSxtvEi7oIgL5vb_9orP0l-b0eztg5pLzth7wLAKEUZjFlJvFOOV-lGrFtYCWyHFJ6d-sk3_xoNH-G6AaPlg7oeDDLdbbvuDGiiUxm-mu3pQ3eSrsAvdpw_Kot1ztN0L0OGmeNOJaPsCyxdV4-CIH5Uro7tW-5ia6YtqQ-PSEfp6p4HdIhHyr2kbnemsjZUHFOYTWe7r_nwsd6pNym3W9Gyvkm5Fin2GueashdNK_eNUWlai0VRn-nL8vBrTUyLmXIGf8gpV5WGB4Pe2VehJz4_A66g9PadlMaTA9jjGbJacH0yUzuY3qwlnjMony5veT9tcw=w1238-h503-no?authuser=0" alt="Screenshot" title="Screenshot">
 </div>
 
