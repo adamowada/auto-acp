@@ -19,6 +19,7 @@
     - `git commit -m "<generated_commit_message>"`
     - `git push`
     - Finally, Auto-ACP will print the generated commit message to the terminal
+- If there aren't changes to any files it will exit early. Helpful when setting autoacp to a timer with watch! 
 
 ## Prerequisites:
 - git
@@ -49,6 +50,7 @@
     - `export PATH=$PATH:/home/adam/projects/auto-acp`
     - Restart your terminal 
 10. Test by running `$ autoacp` in a git repository with uncommitted changes
+11. 🎉 You did it! 🎉
 
 > **Optional Step:** Add a watch alias to your .bashrc:
 - Add this to the bottom of your `.bashrc` file:
