@@ -4,16 +4,17 @@ import re
 import subprocess
 
 from dotenv import load_dotenv
-import openai
+from openai import OpenAI
 
 
 load_dotenv("/home/adamo/projects/auto-acp/.env")
 
 
 # Define constants
-PROMPT = "Imagine you are a senior software developer. The following is the output from the command `git diff`. Respond with a 1 line git commit message for these changes verbatim:\n\n"
+PROMPT = "Imagine you are a senior software developer. The following is the output from the command `git diff`. Respond with a well crafted git commit message for these changes verbatim:\n\n"
 OPENAI_API_KEY = os.getenv("API_KEY")
-OPENAI_MODEL = "gpt-3.5-turbo"
+client = OpenAI(api_key=OPENAI_API_KEY)
+OPENAI_MODEL = "gpt-4.1-nano"
 GIT_COMMANDS = {
     "ADD": ["git", "add", "."],
     "COMMIT": ["git", "commit", "-m"],
@@ -57,31 +58,49 @@ def main():
     diff = run_git_command(GIT_COMMANDS["DIFF"])
     diff = replace_chars(diff)
 
-    if not diff or len(diff) < 10:
+    if not diff or len(diff) < 5:
         return
 
     # Call OpenAI API
-    openai.api_key = OPENAI_API_KEY
     try:
-        response = openai.ChatCompletion.create(
+        response = client.responses.create(
             model=OPENAI_MODEL,
-            messages=[
+            input=[
+                {
+                    "role": "system",
+                    "content": [
+                        {
+                            "type": "input_text",
+                            "text": "A great git commit message clearly communicates the purpose and context of the commit to any future reader, whether that's another developer or your future self. It should succinctly summarize what changes were made, why they were necessary, and any critical context or side effects. The best commit messages balance brevity and clarity, often starting with a concise subject line followed by an optional detailed explanation if needed. I prefer commit messages written in the imperative mood (\"Fix bug\", \"Add feature\") because it clearly states the action taken and reads naturally in git logs or generated changelogs. Thoughtful commit messages help teams understand project history, simplify debugging, facilitate code reviews, and improve overall maintainability.\n\n**Quick Tips for Great Git Commit Messages:**\n\n- **Be concise yet descriptive:** Keep the summary short (50 characters or fewer) but clearly describe what the commit achieves.\n- **Use imperative mood:** Write commit messages as commands (\"Update README\", \"Fix login bug\").\n- **Explain the why:** When necessary, provide context or reasoning in a detailed commit body after a blank line.\n- **Separate concerns:** Make each commit about one logical change or fix; avoid bundling unrelated changes.\n- **Reference related issues:** Link commits to relevant issue tracker IDs (e.g., \"#42\") to enhance traceability.\n- **Proofread before committing:** Check grammar, spelling, and clarity to ensure readability for future readers."
+                        }
+                    ]
+                },
                 {
                     "role": "user",
-                    "content": PROMPT + diff,
+                    "content": [
+                        {
+                            "type": "input_text",
+                            "text": f"Imagine you are a senior software developer. The following is the output from the command `git diff`. \n\n```bash\n{diff}\n```\n\nRespond with a well crafted git commit message. The message must be 50 characters or shorter. Respond with a verbatim commit message, with the intent that your response will be copied and pasted as is. Do not add additional commentary."
+                        }
+                    ]
                 }
             ],
+            text={
+                "format": {
+                "type": "text"
+                }
+            },
+            reasoning={},
+            tools=[],
+            temperature=1,
+            max_output_tokens=2048,
+            top_p=1,
+            store=True
         )
-    except openai.error.APIError as err:
-        # Handle API error here, e.g. retry or log
-        raise Exception(f"OpenAI API returned an API Error: {err}")
-    except openai.error.APIConnectionError as err:
-        # Handle connection error here
-        raise Exception(f"Failed to connect to OpenAI API: {err}")
-    except openai.error.RateLimitError as err:
-        # Handle rate limit error (OpenAI recommends using exponential backoff)
-        raise Exception(f"OpenAI API request exceeded rate limit: {err}")
-    commit_message = response.choices[0].message["content"].strip()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+    commit_message = response.output[0].content[0].text.strip()
 
     # ACP
     run_git_command(GIT_COMMANDS["ADD"])
